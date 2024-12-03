@@ -4,9 +4,14 @@ from pydantic import BaseModel
 import random
 import string
 import pymongo
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
-client = pymongo.MongoClient('mongodb://mongo:27017/')
+mongo_db_url = os.getenv('MONGO_DB_URL')
+client = pymongo.MongoClient(mongo_db_url)
 db = client['url_shortener']
 
 # Custom character set excluding similar characters
