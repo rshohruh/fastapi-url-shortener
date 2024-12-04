@@ -11,6 +11,7 @@ load_dotenv()
 
 app = FastAPI()
 mongo_uri = os.getenv('MONGO_URI')
+domain = os.getenv('DOMAIN')
 client = pymongo.MongoClient(mongo_uri)
 db = client['url_shortener']
 
@@ -51,8 +52,8 @@ async def shorten_url(url_request: URLRequest, request: Request):
 
     # Store the mapping in the database
     db.url_hashes.insert_one({'url': url, 'hash': url_hash})
-    current_host = request.url.scheme + "://" + request.url.netloc
-    short_url = f"{current_host}/{url_hash}"
+
+    short_url = f"{domain}/{url_hash}"
     return {"short_url": short_url}
 
 @app.delete("/shorten/{hash}")
