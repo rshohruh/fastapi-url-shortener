@@ -55,6 +55,16 @@ async def shorten_url(url_request: URLRequest, request: Request):
     short_url = f"{current_host}/{url_hash}"
     return {"short_url": short_url}
 
+@app.delete("/shorten/{hash}")
+async def delete_url(hash: str):
+    if not is_valid(hash):
+        raise HTTPException(status_code=400, detail="Invalid request")
+    result = db.url_hashes.delete_one({'hash': hash})
+    if result.deleted_count == 1:
+        return {"detail": "URL successfully deleted"}
+    else:
+        raise HTTPException(status_code=404, detail="URL not found")
+
 @app.get("/{hash}")
 async def redirect_url(hash: str):
     url_hash_doc = db.url_hashes.find_one({'hash': hash})

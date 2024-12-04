@@ -19,3 +19,11 @@ response = requests.post(url, json=another_data)
 print(response.status_code)
 pprint(response.json())
 # print(response.reason)
+
+response = requests.delete(url=f"{url}/abe")
+print(response.status_code)
+pprint(response.json())
+
+response = requests.post(url, json=data)
+print(response.status_code)
+pprint(response.json())
