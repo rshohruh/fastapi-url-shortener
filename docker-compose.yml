@@ -9,6 +9,7 @@ services:
       - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017/
+      - DOMAIN=http://127.0.0.1:8000
   
   mongo:
     image: mongo:latest
